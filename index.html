@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real Calculator</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Real Calculator</h1>
+
+    <div id="text-area">
+      <div>
+        <input type="text" disable id="display-two" name="ans-display" />
+      </div>
+
+      <div>
+        <input
+          type="text"
+          disable
+          id="display-one"
+          name="input-display"
+          value="0"
+        />
+      </div>
+    </div>
+
+    <div id="input-area">
+      <div id="first-row">
+        <button value="7">7</button>
+        <button value="8">8</button>
+        <button value="9">9</button>
+        <button value="/">/</button>
+      </div>
+
+      <div id="second-row">
+        <button value="4">4</button>
+        <button value="5">5</button>
+        <button value="6">6</button>
+        <button value="x">x</button>
+      </div>
+
+      <div id="third-row">
+        <button value="1">1</button>
+        <button value="2">2</button>
+        <button value="3">3</button>
+        <button value="-">-</button>
+      </div>
+
+      <div id="fourth-row">
+        <button value="0">0</button>
+        <button value=".">.</button>
+        <button value="=">=</button>
+        <button value="+">+</button>
+      </div>
+
+      <div style="float: right">
+        <button value="AC">AC</button>
+      </div>
+    </div>
+  </body>
+  <script src="index.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</html>
