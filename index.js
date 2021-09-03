@@ -3,9 +3,11 @@ let prevInput;
 let firstRun = 1;
 let prevAns = 0;
 let op = ["+", "-", "x", "/"];
+let quotes = ["(", ")"];
 
 const main = (inputVal, currentVal) => {
   currentVal = procFirstRun(inputVal);
+  if (currentVal === "default") return;
   if (inputVal === "=") {
     return equal(currentVal);
   }
@@ -17,6 +19,9 @@ const main = (inputVal, currentVal) => {
 
 const procFirstRun = (inputVal) => {
   if (firstRun === 1) {
+    // Nếu người dùng chưa nhập mà bấm dấu =
+    if (inputVal === "=") return "default";
+
     if (!op.includes(inputVal)) {
       clearInputDisplay();
       firstRun = 0;
@@ -41,13 +46,28 @@ document.getElementById("input-area").onclick = function (e) {
 };
 
 const updateDisplay = (inputVal, currentVal) => {
-  if (op.includes(inputVal) && op.includes(currentVal[currentVal.length - 1]))
-    return $("#display-one").val(currentVal);
+  //TH người dùng nhập dấu ngoặc
+  if (quotes.includes(inputVal)) {
+    // TH trc dấu ngoặc là một phép tính
+    if (op.includes(currentVal[currentVal.length - 1]))
+      if (inputVal === ")") return; //Nếu người dùng nhập dấu đóng thì không cho nhập
+    if (currentVal[currentVal.length - 1] === inputVal) return; //TH người dùng nhập dấu ngoặc liên tục
+    if (inputVal === ")" && currentVal[currentVal.length - 1] === "(") return; //TH người dùng đóng ngoặc khi chưa bấm gì vào trong ngoặc
+  }
 
-  if (op.includes(inputVal) || op.includes(currentVal[currentVal.length - 1]))
+  //TH người dùng nhập toán tử
+  if (op.includes(inputVal)) {
+    // Nếu người dùng nhậP toán tử sau dấu ngoặc
+    if (currentVal[currentVal.length - 1] === "(") return;
+    // Nếu người dùng vừa nhập toán tử liên tục
+    if (op.includes(inputVal) && op.includes(currentVal[currentVal.length - 1]))
+      return $("#display-one").val(currentVal);
+    //Nếu người dùng nhập bình thường
+    return $("#display-one").val(currentVal + " " + inputVal);
+  }
+  if (op.includes(currentVal[currentVal.length - 1]))
     return $("#display-one").val(currentVal + " " + inputVal);
 
-  console.log("hi");
   return $("#display-one").val(currentVal + inputVal);
 };
 
@@ -57,9 +77,24 @@ const clearInputDisplay = () => {
 
 const equal = (currentVal) => {
   let temp = currentVal;
+
+  // Chuyển kí tự x thành phép nhân
   if (currentVal.includes("x")) {
     temp = currentVal.replaceAll("x", "*");
     console.log(currentVal);
+  }
+
+  // TH người dùng không bấm dấu nhân trước dấU ngoặc
+  if (currentVal.includes("(")) {
+    for (i = 0; i < temp.length; i++) {
+      if (temp[i] === "(") {
+        let index = i;
+        if (parseInt(temp[index - 1]) || temp[index - 1] === ")") {
+          temp = temp.slice(0, index) + "*" + temp.slice(index, temp.length);
+          console.log(temp);
+        }
+      }
+    }
   }
 
   let ans = eval(temp);
